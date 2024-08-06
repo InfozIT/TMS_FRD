@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useCallback, useContext } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useContext,
+} from "react";
 import {
   Link,
   useFetcher,
@@ -81,7 +87,7 @@ function Entities() {
     pageSize: 10,
   });
   const isFirstRender = useRef(true);
-  
+
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -154,13 +160,9 @@ function Entities() {
         text: `You cannot delete entity because there are ${
           entityUsers?.data.length
         } 
-        ${
-          entityUsers?.data.length > 1 ? `users` : `user`
-        }   
+        ${entityUsers?.data.length > 1 ? `users` : `user`}   
         
-        (${entityUsers?.data
-          .map((user) => user.name)
-          .join(", ")}) are present`,
+        (${entityUsers?.data.map((user) => user.name).join(", ")}) are present`,
         icon: "warning",
         showCancelButton: false,
         confirmButtonColor: "#ea580c",
@@ -529,7 +531,7 @@ function Entities() {
               <p className="text-sm text-gray-700">
                 Showing {entities.startEntity} to {entities.endEntity} of{" "}
                 <span className="text-sm">{entities.totalEntities}</span>{" "}
-                entites
+                departments
               </p>
             )}
           </div>

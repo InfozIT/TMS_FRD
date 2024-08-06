@@ -1389,7 +1389,7 @@ function TeamsForm() {
                                     : URL.createObjectURL(item.value)
                                 }
                                 name="EntityPhoto"
-                                alt="Entity Photo"
+                                alt="Department Photo"
                                 className="rounded-lg w-10 h-10 mr-4"
                               />
                             ) : (
@@ -1454,7 +1454,7 @@ function TeamsForm() {
                                                       user.image
                                                     )
                                               }
-                                              alt="Entity Photo"
+                                              alt="Department Photo"
                                               className="rounded-full w-10 h-10"
                                             />
                                           ) : (

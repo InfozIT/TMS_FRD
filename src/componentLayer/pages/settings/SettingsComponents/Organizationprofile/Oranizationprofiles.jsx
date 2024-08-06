@@ -381,7 +381,7 @@ const OrganizationProfile = () => {
                       scope="col"
                       className="px-6 py-2 text-center text-sm  text-white bg-orange-600   border-collapse border border-[#e5e7eb] "
                     >
-                      Entity Name
+                      Department Name
                     </th>
                   </tr>
                 </thead>

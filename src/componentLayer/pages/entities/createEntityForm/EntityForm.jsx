@@ -26,7 +26,7 @@ export async function entityFormLoader({ params }) {
       entityData = entityResponse?.data;
     }
     const formData = formResponse.data.Data;
-    if(entityData){
+    if (entityData) {
       let threadName = entityData?.name;
       let threadPath = `/entities/${params.id}/edit`;
       return { entityData, formData, threadName, threadPath };
@@ -501,7 +501,9 @@ function EntityForm() {
 
   return (
     <div className="container p-4 bg-[#f8fafc]">
-      <p className="text-lg font-semibold"><BreadCrumbs/></p>
+      <p className="text-lg font-semibold">
+        <BreadCrumbs />
+      </p>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 ">
         <div className="col-span-1">
           <form className=" " method="POST" onSubmit={handleFormSubmit}>
@@ -1159,7 +1161,7 @@ function EntityForm() {
                             </p>
                           ) : (
                             <p className="text-sm font-black text-gray-800 mt-2 ml-2 absolute left-12">
-                              ENTITY NAME
+                              DEPARTMENT NAME
                             </p>
                           )}
                         </div>
@@ -1177,7 +1179,7 @@ function EntityForm() {
                                     : URL.createObjectURL(item.value)
                                 }
                                 name="EntityPhoto"
-                                alt="Entity Photo"
+                                alt="Department Photo"
                                 className="rounded-lg w-10 h-10 mr-4"
                               />
                             ) : (

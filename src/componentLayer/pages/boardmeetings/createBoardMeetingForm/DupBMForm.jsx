@@ -1646,7 +1646,7 @@ function BoardMeetingForm() {
                                                         user.image
                                                       )
                                                 }
-                                                alt="Entity Photo"
+                                                alt="Department Photo"
                                                 className="rounded-full w-10 h-10"
                                               />
                                             ) : (

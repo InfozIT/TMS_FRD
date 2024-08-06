@@ -350,22 +350,19 @@ const CustomFormStructure = () => {
     console.log("formName", formData);
   };
   const saveCustomForm = async (formData) => {
-    toast.promise(
-      atbtApi.put(`/form/${formName}`, formData),
-      {
-        pending: "Updating Form",
-        success: {
-          render({ data }) {
-            let formData = {
-              arrayOfObjects: customForm,
-            };
+    toast.promise(atbtApi.put(`/form/${formName}`, formData), {
+      pending: "Updating Form",
+      success: {
+        render({ data }) {
+          let formData = {
+            arrayOfObjects: customForm,
+          };
 
-            return `Form Updated`;
-          },
+          return `Form Updated`;
         },
-        error: "Unable to update form 🤯",
-      }
-    );
+      },
+      error: "Unable to update form 🤯",
+    });
   };
   const deleteOption = (index) => {
     let updatedNewInputField = { ...newInputField };
@@ -403,7 +400,7 @@ const CustomFormStructure = () => {
           )}
           {formName === "entityform" && (
             <span className="text-lg md:text-xl lg:text-xl xl:text-xl font-semibold">
-              Entity Form
+              Department Form
             </span>
           )}
           {formName === "boardmeetingform" && (

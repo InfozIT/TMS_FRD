@@ -80,9 +80,9 @@ const NonEditableFields = ({ task, age }) => {
       <div className="col-span-1">
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
           {task?.taskCreateBY?.name === "users" ? (
-            <span className="text-xs">Entity Name</span>
+            <span className="text-xs">Department Name</span>
           ) : task?.taskCreateBY?.name === "entities" ? (
-            <span className="text-xs">Entity Name</span>
+            <span className="text-xs">Department Name</span>
           ) : task?.taskCreateBY?.name === "teams" ? (
             <span className="text-xs">Team Name</span>
           ) : (
