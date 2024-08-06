@@ -1247,7 +1247,7 @@ const Tasks = () => {
               }));
               let Module = "";
               if (task?.createdBy.name === "entities") {
-                Module = "Entity";
+                Module = "Department";
               } else if (task?.createdBy.name === "teams") {
                 Module = "Team";
               }

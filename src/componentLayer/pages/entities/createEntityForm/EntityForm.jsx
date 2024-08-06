@@ -532,7 +532,7 @@ function EntityForm() {
                           type="text"
                           name={item.inputname}
                           id={item.inputname}
-                          placeholder="Enter Entity Name"
+                          placeholder="Enter Name"
                           value={customFormFields[index].value || ""}
                           className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                           onChange={(e) => handleChange(index, e.target.value)}
@@ -1137,7 +1137,7 @@ function EntityForm() {
                 type="submit"
                 className="mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
-                {id ? "Update Entity" : "Create Entity"}
+                {id ? "Update Department" : "Create Department"}
               </button>
             </div>
           </form>

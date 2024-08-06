@@ -47,7 +47,7 @@ function HomeEntity() {
         <div className="p-3 sm:px-6 sm:pt-2">
           <div className="flex items-center justify-between mb-2">
             <h5 className="text-lg font-semibold leading-none text-gray-800 dark:text-white">
-              Entities {fetcher.state === "loading" ? "..." : null}
+              Departments {fetcher.state === "loading" ? "..." : null}
             </h5>
             <GateKeeper
               permissionCheck={(permission) =>

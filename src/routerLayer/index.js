@@ -59,7 +59,7 @@ export const router = createBrowserRouter([
             pathname: "/entities",
             search:`?search=&page=1&pageSize=10`,
           }}
-          >Entities</Link>,
+          >Departments</Link>,
         },
       },
       {
