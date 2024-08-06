@@ -18,16 +18,16 @@ function TasksFilter({
   const queryParams = new URLSearchParams(location.search);
 
   // Access individual query parameters by name
-  const status = queryParams.get('status');
+  const status = queryParams.get("status");
   function handlefilters() {
-    let Qp
-    if(status === null){
-        Qp ={...Qparams}
-        delete Qp.status
-    }else {
-        Qp ={...Qparams,status:status}
+    let Qp;
+    if (status === null) {
+      Qp = { ...Qparams };
+      delete Qp.status;
+    } else {
+      Qp = { ...Qparams, status: status };
     }
-    console.log("Qparams",Qparams,"selectedFilters",selectedFilters)
+    console.log("Qparams", Qparams, "selectedFilters", selectedFilters);
     setQParams({
       ...Qp,
       ...selectedFilters,
@@ -55,24 +55,22 @@ function TasksFilter({
 
   const handleFilterReset = () => {
     setSelectedFilters({});
-  
-    setSelectedModule(null)
-    setSelectedModuleList(null)
-    setSelectedMeeting(null)
-    setModuleListOptions()
-    setMeetingList()
-    let qprms = {...Qparams}
-    delete qprms.listID
-    delete qprms.meetingId
-    delete qprms.moduleName
 
-
+    setSelectedModule(null);
+    setSelectedModuleList(null);
+    setSelectedMeeting(null);
+    setModuleListOptions();
+    setMeetingList();
+    let qprms = { ...Qparams };
+    delete qprms.listID;
+    delete qprms.meetingId;
+    delete qprms.moduleName;
 
     setQParams({
       ...qprms,
-    //   search: Qparams?.search,
-    //   page: Qparams?.page,
-    //   pageSize: Qparams?.pageSize,
+      //   search: Qparams?.search,
+      //   page: Qparams?.page,
+      //   pageSize: Qparams?.pageSize,
     });
     setFilterDrawerOpen(!filterDrawerOpen);
   };
@@ -81,14 +79,14 @@ function TasksFilter({
   };
   let moduleOptions = [
     // { label: "User", value: "user" },
-    { label: "Entity", value: "entity" },
+    { label: "Department", value: "entity" },
     { label: "Team", value: "team" },
   ];
   let [selectedModule, setSelectedModule] = useState("");
   let [ModuleListOptions, setModuleListOptions] = useState();
   let [selectedModuleList, setSelectedModuleList] = useState();
   let [meetingList, setMeetingList] = useState();
-  let [selectedMeeting,setSelectedMeeting] = useState()
+  let [selectedMeeting, setSelectedMeeting] = useState();
   console.log("selectedModuleList", selectedModuleList);
   useEffect(() => {
     // Ensure selectedModule exists before making the API call
@@ -140,8 +138,8 @@ function TasksFilter({
 
     fetchData();
   }, [selectedModule]);
-  let [search,setSearch] = useState("")
- 
+  let [search, setSearch] = useState("");
+
   const fetchData = async () => {
     try {
       let response;
@@ -153,11 +151,10 @@ function TasksFilter({
         label: meeting.meetingnumber,
         value: meeting.id,
       }));
-      if(response?.length>0){
-        response?.unshift({label:"All Meetings",value:"all"})
-
+      if (response?.length > 0) {
+        response?.unshift({ label: "All Meetings", value: "all" });
       }
-      console.log(response,"response b")
+      console.log(response, "response b");
 
       // Update state with the data from the API response
       setMeetingList(response);
@@ -273,18 +270,17 @@ function TasksFilter({
                       ...provided,
                       color: state.isFocused ? "#fff" : "#000000",
                       fontSize: "12px",
-                      cursor:"pointer",
+                      cursor: "pointer",
                       backgroundColor: state.isFocused
                         ? "#ea580c"
                         : "transparent",
-  
+
                       "&:hover": {
                         color: "#fff",
                         backgroundColor: "#ea580c",
                       },
                     }),
-                   
-                 
+
                     menu: (provided) => ({
                       ...provided,
                       zIndex: "inherit", // Inherit zIndex to avoid stacking issues
@@ -311,15 +307,12 @@ function TasksFilter({
                   menuPlacement="auto"
                   maxMenuHeight={150}
                   value={selectedModule}
-                  onChange={(selectedOption) =>{
+                  onChange={(selectedOption) => {
                     setSelectedModule(selectedOption);
-                    setSelectedModuleList(null)
-                    setSelectedMeeting(null)
-                    handleFilterChange("moduleName", selectedOption?.value)
-
-                  }
-                   
-                  }
+                    setSelectedModuleList(null);
+                    setSelectedMeeting(null);
+                    handleFilterChange("moduleName", selectedOption?.value);
+                  }}
                 />
               </div>
 
@@ -347,18 +340,17 @@ function TasksFilter({
                       ...provided,
                       color: state.isFocused ? "#fff" : "#000000",
                       fontSize: "12px",
-                      cursor:"pointer",
+                      cursor: "pointer",
                       backgroundColor: state.isFocused
                         ? "#ea580c"
                         : "transparent",
-  
+
                       "&:hover": {
                         color: "#fff",
                         backgroundColor: "#ea580c",
                       },
                     }),
-                   
-               
+
                     menu: (provided) => ({
                       ...provided,
                       zIndex: "inherit", // Inherit zIndex to avoid stacking issues
@@ -385,20 +377,18 @@ function TasksFilter({
                   menuPlacement="auto"
                   maxMenuHeight={150}
                   value={selectedModuleList}
-                  onChange={(selectedOption) =>{
-                    setSelectedModuleList(selectedOption)
-                    setSelectedMeeting(null)
-                    handleFilterChange("listID", selectedOption.value)
-
-                  }
-                  }
+                  onChange={(selectedOption) => {
+                    setSelectedModuleList(selectedOption);
+                    setSelectedMeeting(null);
+                    handleFilterChange("listID", selectedOption.value);
+                  }}
                 />
               </div>
               <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
-                 Meeting
+                Meeting
               </label>
               <div className="relative w-full">
-              <Select
+                <Select
                   className="absolute"
                   options={meetingList}
                   styles={{
@@ -418,18 +408,17 @@ function TasksFilter({
                       ...provided,
                       color: state.isFocused ? "#fff" : "#000000",
                       fontSize: "12px",
-                      cursor:"pointer",
+                      cursor: "pointer",
                       backgroundColor: state.isFocused
                         ? "#ea580c"
                         : "transparent",
-  
+
                       "&:hover": {
                         color: "#fff",
                         backgroundColor: "#ea580c",
                       },
                     }),
-                   
-                
+
                     menu: (provided) => ({
                       ...provided,
                       zIndex: "inherit", // Inherit zIndex to avoid stacking issues
@@ -456,21 +445,14 @@ function TasksFilter({
                   menuPlacement="auto"
                   maxMenuHeight={150}
                   value={selectedMeeting}
-                  onChange={(selectedOption) =>{
+                  onChange={(selectedOption) => {
                     setSelectedMeeting(selectedOption);
-                    handleFilterChange("meetingId", selectedOption.value)
-
-                    
-                  }
-                
-                   
-                  }
+                    handleFilterChange("meetingId", selectedOption.value);
+                  }}
                   onInputChange={(inputValue) => {
                     setSearch(inputValue);
                   }}
                 />
-
-
               </div>
             </div>
           </div>

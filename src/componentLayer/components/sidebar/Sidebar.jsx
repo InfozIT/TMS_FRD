@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import logo from "../../../assets/Images/Kapil-Logo.png";
 import { Link, NavLink, useLocation, useMatches } from "react-router-dom";
 import GateKeeper from "../../../rbac/GateKeeper";
-const Sidebar = ({open}) => {
+const Sidebar = ({ open }) => {
   const location = useLocation();
   const matches = useMatches();
   console.log(location, "location");
@@ -15,7 +15,7 @@ const Sidebar = ({open}) => {
     } else if (updated[1] === "users") {
       setActive("Users");
     } else if (updated[1] === "entities") {
-      setActive("Entities");
+      setActive("Departments");
     } else if (updated[1] === "teams") {
       setActive("Teams");
     } else if (updated[1] === "boardmeetings") {
@@ -24,8 +24,7 @@ const Sidebar = ({open}) => {
       setActive("Decisions");
     } else if (updated[1] === "reports") {
       setActive("Reports");
-    } 
-     else if (updated[1] === "settings") {
+    } else if (updated[1] === "settings") {
       setActive("Settings");
     }
   }, [matches]);
@@ -50,7 +49,7 @@ const Sidebar = ({open}) => {
       module: "user",
     },
     {
-      name: "Entities",
+      name: "Departments",
       link: "/entities",
       icon: (
         <svg
@@ -163,98 +162,94 @@ const Sidebar = ({open}) => {
   ];
 
   const [active, setActive] = useState("Home");
- 
 
   return (
-    <div className={`sidebar ${open ? "expand" : "close" }`}>
-    <ul className="mt-4">
-      <li className="px-2  ">
-        <div className="sidebar-menu ">
-          <span className="icon ">
-         
-            <img src={logo} alt="Infoz IT" className={`w-18 h-7  p-0 `} />
-          </span>
-          <span className="text">
-            <span className="text-[#372f81] font-semibold text-md leading-normal ">
-            &nbsp; Kapil
-            </span>&nbsp;
-            <span className="text-[#ae060d] font-semibold text-md leading-normal">
-              Group
+    <div className={`sidebar ${open ? "expand" : "close"}`}>
+      <ul className="mt-4">
+        <li className="px-2  ">
+          <div className="sidebar-menu ">
+            <span className="icon ">
+              <img src={logo} alt="Infoz IT" className={`w-18 h-7  p-0 `} />
             </span>
-          </span>
-         
-        </div>
-        
-      </li>
-      <li className="px-2">
-        <Link
-          className={`sidebar-menu flex items-center text-md gap-2 font-semibold  leading-normal
+            <span className="text">
+              <span className="text-[#372f81] font-semibold text-md leading-normal ">
+                &nbsp; Kapil
+              </span>
+              &nbsp;
+              <span className="text-[#ae060d] font-semibold text-md leading-normal">
+                Group
+              </span>
+            </span>
+          </div>
+        </li>
+        <li className="px-2">
+          <Link
+            className={`sidebar-menu flex items-center text-md gap-2 font-semibold  leading-normal
                                   hover:bg-orange-600 hover:text-white rounded-md
           ${"Home" === active ? "text-orange-600" : "black"}`}
-          to="/"
-          onClick={(e) => {
-            setActive("Home");
-          }}
-        >
-          <span className="icon "   >
-            
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="w-5 h-5"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </span>
-
-          <span className="text text-sm  font-semibold  leading-normal ">
-            Home
-          </span>
-        </Link>
-      </li>
-      {menus?.map((menu, i) => (
-        <li className="px-2">
-          <GateKeeper
-            permissionCheck={(permission) =>
-              permission.module === menu.module && permission.canRead
-            }
+            to="/"
+            onClick={(e) => {
+              setActive("Home");
+            }}
           >
-            <Link
-              to={{
-                pathname: menu?.link,
-                search:
-                  location?.state?.from === menu?.link
-                    ? location.search
-                    : `?search=&page=1&pageSize=10`,
-              }}
-              state={{ from: location.pathname }}
-              key={i}
-              onClick={(e) => {
-                setActive(menu.name);
-              }}
-              className={` sidebar-menu flex items-center text-md gap-2 font-semibold  leading-normal
+            <span className="icon ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </span>
+
+            <span className="text text-sm  font-semibold  leading-normal ">
+              Home
+            </span>
+          </Link>
+        </li>
+        {menus?.map((menu, i) => (
+          <li className="px-2">
+            <GateKeeper
+              permissionCheck={(permission) =>
+                permission.module === menu.module && permission.canRead
+              }
+            >
+              <Link
+                to={{
+                  pathname: menu?.link,
+                  search:
+                    location?.state?.from === menu?.link
+                      ? location.search
+                      : `?search=&page=1&pageSize=10`,
+                }}
+                state={{ from: location.pathname }}
+                key={i}
+                onClick={(e) => {
+                  setActive(menu.name);
+                }}
+                className={` sidebar-menu flex items-center text-md gap-2 font-semibold  leading-normal
                                   hover:bg-orange-600 hover:text-white rounded-md
                                   ${
                                     menu?.name === active
                                       ? "text-orange-600"
                                       : "black"
                                   }`}
-            >
-              <span className="icon ">{menu.icon}</span>
-              <span className="text text-sm  font-semibold  leading-normal ">
-                {menu.name}
-              </span>
-            </Link>
-          </GateKeeper>
-        </li>
-      ))}
-    </ul>
-  </div>
+              >
+                <span className="icon ">{menu.icon}</span>
+                <span className="text text-sm  font-semibold  leading-normal ">
+                  {menu.name}
+                </span>
+              </Link>
+            </GateKeeper>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

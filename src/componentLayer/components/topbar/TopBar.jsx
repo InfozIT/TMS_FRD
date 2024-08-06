@@ -91,7 +91,9 @@ export default function TopBar({ open, setOpen }) {
               </div>
               <GateKeeper
                 permissionCheck={(permission) =>
-                  permission.module === "user" && permission.canCreate || permission.module === "entity" && permission.canCreate || permission.module === "team" && permission.canCreate 
+                  (permission.module === "user" && permission.canCreate) ||
+                  (permission.module === "entity" && permission.canCreate) ||
+                  (permission.module === "team" && permission.canCreate)
                 }
               >
                 <div className="flex flex-shrink-0 items-center">
@@ -208,7 +210,9 @@ export default function TopBar({ open, setOpen }) {
                                       />
                                     </svg>
 
-                                    <p className="ms-2 mt-1 text-sm">Entity</p>
+                                    <p className="ms-2 mt-1 text-sm">
+                                      Department
+                                    </p>
                                   </div>
                                 </Link>
                               )}
@@ -445,8 +449,6 @@ export default function TopBar({ open, setOpen }) {
                   </Menu>
                 </div>
               </GateKeeper>
-
-              
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center gap-2 me-3 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               {/* <button

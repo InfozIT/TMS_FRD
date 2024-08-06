@@ -1,4 +1,10 @@
-import React, { useState, useContext, useEffect, useCallback, useRef } from "react";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useRef,
+} from "react";
 import axios from "axios";
 import defprop from "../../../../assets/Images/defprof.svg";
 import useDebounce from "../../../../hooks/debounce/useDebounce";
@@ -47,15 +53,14 @@ export async function boardmeetingFormLoader({ params, request }) {
         ? atbtApi.get(`/team/list/${boardmeetingForID}`)
         : null,
       boardmeetingFor && boardmeetingForID
-        ? 
-        atbtApi.get(
+        ? atbtApi.get(
             `boardmeeting/list?${boardmeetingFor}=${boardmeetingForID}${
               url && url.search ? "&" + url.search.substring(1) : ""
             }`
-          ): null,
-     
-      atbtApi.post(`team/list${url?.search ? url?.search : ""}`, {}),
+          )
+        : null,
 
+      atbtApi.post(`team/list${url?.search ? url?.search : ""}`, {}),
     ]);
     usersList = usersList?.data?.users?.map((item) => ({
       value: item.id,
@@ -707,7 +712,6 @@ function BoardMeetingForm() {
     search: "",
     page: 1,
     pageSize: 10,
-   
   });
 
   const isFirstRender = useRef(true);
@@ -734,7 +738,6 @@ function BoardMeetingForm() {
       });
     }
   }
-  
 
   console.log("selected", selected);
   return (
@@ -1755,7 +1758,7 @@ function BoardMeetingForm() {
                                                         user.image
                                                       )
                                                 }
-                                                alt="Entity Photo"
+                                                alt="Department Photo"
                                                 className="rounded-full w-10 h-10"
                                               />
                                             ) : (

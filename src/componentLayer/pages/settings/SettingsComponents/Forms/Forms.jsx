@@ -12,7 +12,7 @@ const formsData = [
             link: "userform"
         },
         {
-            name: "Entity Form",
+            name: "Department Form",
             icon: entityform,
             link: "entityform"
         },

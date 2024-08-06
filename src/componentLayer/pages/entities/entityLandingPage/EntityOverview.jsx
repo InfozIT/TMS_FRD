@@ -401,7 +401,7 @@ const EntityOverview = () => {
                                   ? user.image
                                   : URL.createObjectURL(user.image)
                               }
-                              alt="Entity Photo"
+                              alt="Department Photo"
                               className="rounded-full w-10 h-10"
                             />
                           ) : (
@@ -423,19 +423,19 @@ const EntityOverview = () => {
                                 {user.designation}
                               </p>
                             </div>
-                          
                           </div>
                         </div>
                         {index === showAllMembers - 1 &&
-                              UsersList.length > showAllMembers && (
-                                <span className="text-xs border border-gray-200 p-2 bg-orange-500 rounded-md text-white cursor-pointer"
-                                  onClick={() =>
-                                    setShowAllMembers(UsersList.length)
-                                  }
-                                >
-                                  + {UsersList.length - showAllMembers} more
-                                </span>
-                              )}
+                          UsersList.length > showAllMembers && (
+                            <span
+                              className="text-xs border border-gray-200 p-2 bg-orange-500 rounded-md text-white cursor-pointer"
+                              onClick={() =>
+                                setShowAllMembers(UsersList.length)
+                              }
+                            >
+                              + {UsersList.length - showAllMembers} more
+                            </span>
+                          )}
                       </>
                     ) : (
                       <>

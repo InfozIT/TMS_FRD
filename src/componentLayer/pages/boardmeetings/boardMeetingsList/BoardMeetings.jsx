@@ -16,7 +16,7 @@ import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 let moduleOptions = [
   // { label: "User", value: "user" },
-  { label: "Entity", value: "entity" },
+  { label: "Department", value: "entity" },
   { label: "Team", value: "team" },
 ];
 export async function loader({ request, params }) {

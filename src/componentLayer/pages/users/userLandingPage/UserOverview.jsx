@@ -90,7 +90,7 @@ const UserOverview = () => {
                             <img
                               src={data?.data?.data?.user?.image}
                               name="EntityPhoto"
-                              alt="User Photo"
+                              alt="Department Photo"
                               className=" h-36 w-36 relative mx-auto bottom-24 md:bottom-20 rounded-md border-2  border-gray-200 shadow-md"
                             />
                           ) : (

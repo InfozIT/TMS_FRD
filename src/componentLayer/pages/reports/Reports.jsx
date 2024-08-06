@@ -14,7 +14,7 @@ let reportType = [
 
 let moduleList = [
   // { label: "User", value: "user" },
-  { label: "Entity", value: "entity" },
+  { label: "Department", value: "entity" },
   { label: "Team", value: "team" },
 ];
 
@@ -26,7 +26,9 @@ export async function loader({ request, params }) {
     const listID = url.searchParams.get("listID");
     const meetingId = url.searchParams.get("meetingId");
     const reportType = url.searchParams.get("reportType");
-    const meetingSearch = url.searchParams.get("meetingSearch") ? url.searchParams.get("meetingSearch") : "";
+    const meetingSearch = url.searchParams.get("meetingSearch")
+      ? url.searchParams.get("meetingSearch")
+      : "";
 
     const userData = JSON.parse(localStorage.getItem("data"));
     const userId = userData?.user?.id;
@@ -57,7 +59,9 @@ export async function loader({ request, params }) {
         : null,
       moduleName &&
         listID &&
-        atbtApi.get(`boardmeeting/list?${moduleName}=${listID}&search=${meetingSearch}&page=1&pageSize=10`),
+        atbtApi.get(
+          `boardmeeting/list?${moduleName}=${listID}&search=${meetingSearch}&page=1&pageSize=10`
+        ),
     ]);
     console.log("selectedModuleList890", reportsData);
     let selectedModuleLists;
@@ -88,20 +92,22 @@ export async function loader({ request, params }) {
 
     console.log(selectedModuleLists, meetingsLists, "EntitiesListuoi");
     const processData = (tasks) => {
-      return tasks.map(task => {
-        const memberData = task.group.find(member => member.id === task.members);
+      return tasks.map((task) => {
+        const memberData = task.group.find(
+          (member) => member.id === task.members
+        );
         return {
           ...task,
           membersIDsData: memberData || null,
         };
       });
     };
-    let updatedReportsData  = reportsData?.data?.tasks
-     updatedReportsData  = processData(updatedReportsData)
+    let updatedReportsData = reportsData?.data?.tasks;
+    updatedReportsData = processData(updatedReportsData);
 
-     const sortedData = updatedReportsData.sort((a, b) => {
-      const nameA = a.membersIDsData?.name?.toLowerCase() || '';
-      const nameB = b.membersIDsData?.name?.toLowerCase() || '';
+    const sortedData = updatedReportsData.sort((a, b) => {
+      const nameA = a.membersIDsData?.name?.toLowerCase() || "";
+      const nameB = b.membersIDsData?.name?.toLowerCase() || "";
 
       if (nameA < nameB) return -1;
       if (nameA > nameB) return 1;
@@ -112,7 +118,7 @@ export async function loader({ request, params }) {
 
       return dateA - dateB;
     });
-    updatedReportsData = sortedData
+    updatedReportsData = sortedData;
     const CombinedResponse = {
       reportsData: updatedReportsData,
       selectedModuleList: selectedModuleLists,
@@ -737,7 +743,6 @@ function Reports() {
                       meetingId: selectedOption.value,
                     }));
                   }}
-                
                   onInputChange={(inputValue) => {
                     handleMeetingSearch(inputValue);
                   }}
