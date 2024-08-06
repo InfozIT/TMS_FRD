@@ -37,7 +37,7 @@ export const entityRouter = [
     loader: entityFormLoader,
     element: <EntityForm />,
     handle: {
-      crumb: () => <Link to="/entities/new">New Entity</Link>,
+      crumb: () => <Link to="/entities/new">New Department</Link>,
     },
   },
   {
