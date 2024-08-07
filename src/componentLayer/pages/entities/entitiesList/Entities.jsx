@@ -74,7 +74,7 @@ export async function action({ request, params }) {
 function Entities() {
   const { permissions, loading } = useContext(PermissionsContext);
 
-  document.title = "ATBT | Entity";
+  document.title = "ATBT | Department";
   const navigation = useNavigation();
   const data = useLoaderData();
   const { entities, tableViewData, fieldsDropDownData, customForm } = data;
