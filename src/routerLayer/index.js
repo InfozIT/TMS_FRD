@@ -105,8 +105,6 @@ export const router = createBrowserRouter([
         },
         
       },
-      
-     
       {
         path: "tasks",
         element: (
