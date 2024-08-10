@@ -24,6 +24,14 @@ const AddRoles = () => {
         description: '',
         permissions: [
           {
+            module: 'dashboard',
+            all: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
+          },
+          {
             module: 'user',
             all: false,
             canCreate: false,
