@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import teksacademy_logo from "../../../assets/Images/Teksacademy_logo.png";
+import infozitsmall_logo from "../../../assets/Images/Logo_small.png";
 
 import { Link, NavLink, useLocation, useMatches } from "react-router-dom";
 import GateKeeper from "../../../rbac/GateKeeper";
@@ -190,7 +190,7 @@ const Sidebar = ({ open }) => {
           <div className="sidebar-menu ">
             <span className="icon ">
               <img
-                src={teksacademy_logo}
+                src={infozitsmall_logo}
                 alt="Infoz IT"
                 className={`w-18 h-7  p-0 `}
               />
