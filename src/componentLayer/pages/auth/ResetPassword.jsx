@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import login_bg from "../../../assets/Images/login_bg.jpg";
-import logo from "../../../assets/Images/Kapil-Logo.png";
+import logo from "../../../assets/Images/logo.png";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import reset_gif from "../../../assets/Images/05 Mail delivery.gif";
 function ResetPassword() {
@@ -43,7 +43,7 @@ function ResetPassword() {
               src={logo}
               alt="Company Logo"
             />
-              <p className="text-xs text-center p-1 font-semibold mb-1"> Creating Value || Cultivating Trust</p>
+
               <hr className="p-1"/>
             <h2 className="mb-3 text-center text-lg font-semibold text-gray-900">
               Reset your Password

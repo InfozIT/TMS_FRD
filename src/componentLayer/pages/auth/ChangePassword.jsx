@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import login_bg from "../../../assets/Images/login_bg.jpg";
-import logo from "../../../assets/Images/Kapil-Logo.png";
+import logo from "../../../assets/Images/logo.png";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -123,7 +123,7 @@ function ChangePassword() {
               src={logo}
               alt="Company Logo"
             />
-              <p className="text-xs text-center p-1 font-semibold mb-1"> Creating Value || Cultivating Trust</p>
+     
               <hr className="p-1"/>
             <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 ">
               Change Password

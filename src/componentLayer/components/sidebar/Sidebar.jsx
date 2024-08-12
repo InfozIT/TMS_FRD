@@ -196,12 +196,12 @@ const Sidebar = ({ open }) => {
               />
             </span>
             <span className="text ms-1">
-              <span className="text-orange-600 font-semibold text-md leading-normal ">
-                &nbsp;Teks
+              <span className=" text-[#29609c] font-semibold text-xl leading-normal ">
+                &nbsp;Infoz
               </span>
               &nbsp;
-              <span className="text-[#29609c] font-semibold text-md leading-normal">
-                Academy
+              <span className="text-[#494848] font-semibold text-xl leading-normal">
+                IT
               </span>
             </span>
           </div>
