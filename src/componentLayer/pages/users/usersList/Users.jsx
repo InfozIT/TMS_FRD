@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useContext,
+} from "react";
 import {
   Link,
   useFetcher,
@@ -73,8 +79,8 @@ export async function action({ request, params }) {
 }
 function Users() {
   const { permissions, loading } = useContext(PermissionsContext);
-   let location  = useLocation()
-  console.log("loctoion",location)
+  let location = useLocation();
+  console.log("loctoion", location);
   document.title = "ATBT | User";
   const navigation = useNavigation();
   let submit = useSubmit();
@@ -119,7 +125,7 @@ function Users() {
     console.log(selectedValue, "sv");
     setQParams({
       ...Qparams,
-      page:1,
+      page: 1,
       pageSize: selectedValue,
     });
   };
@@ -272,7 +278,6 @@ function Users() {
             form="userform"
           />
           <CustomFilter
-            
             fieldsDropDownData={fieldsDropDownData}
             Qparams={Qparams}
             setQParams={setQParams}
@@ -283,7 +288,7 @@ function Users() {
         </div>
       </div>
       {/* table */}
-      <div className="max-h-[510px] overflow-y-auto mt-5">
+      <div className=" overflow-y-auto mt-5">
         {visibleColumns && tableView && users?.users && (
           <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead>
@@ -350,8 +355,9 @@ function Users() {
                       }
 
                       if (key === "name") {
-                       
-let meetingPermission = permissions?.find((permission=>permission.module ==="meeting"))
+                        let meetingPermission = permissions?.find(
+                          (permission) => permission.module === "meeting"
+                        );
 
                         return (
                           <td
@@ -360,26 +366,28 @@ let meetingPermission = permissions?.find((permission=>permission.module ==="mee
                             style={{ maxWidth: "12rem" }}
                             title={row[key]}
                           >
-                           {meetingPermission?.canRead ? <GateKeeper
-                              permissionCheck={(permission) =>
-                                permission.module === "meeting" &&
-                                permission.canRead
-                              }
-                            >
-                              <Link
-                              className="hover:text-orange-500"
-                                to={{
-                                  // pathname: `${row.id}/userboardmeetings`,
-                                  pathname: `${row.id}`,
-
-                                  search: `?search=&page=1&pageSize=10`,
-                                }}
+                            {meetingPermission?.canRead ? (
+                              <GateKeeper
+                                permissionCheck={(permission) =>
+                                  permission.module === "meeting" &&
+                                  permission.canRead
+                                }
                               >
-                                <p className="truncate text-xs"> {value}</p>
-                              </Link>
-                            </GateKeeper> :   <p className="truncate text-xs"> {value}</p> }
-                           
-                            
+                                <Link
+                                  className="hover:text-orange-500"
+                                  to={{
+                                    // pathname: `${row.id}/userboardmeetings`,
+                                    pathname: `${row.id}`,
+
+                                    search: `?search=&page=1&pageSize=10`,
+                                  }}
+                                >
+                                  <p className="truncate text-xs"> {value}</p>
+                                </Link>
+                              </GateKeeper>
+                            ) : (
+                              <p className="truncate text-xs"> {value}</p>
+                            )}
                           </td>
                         );
                       } else if (key === "entityname") {
@@ -432,139 +440,146 @@ let meetingPermission = permissions?.find((permission=>permission.module ==="mee
                       }`}
                       style={{ width: "9.375rem" }}
                     >
-                     {row.role !== "super admin" && <div className="flex justify-center gap-4">
-                        <GateKeeper
-                          permissionCheck={(permission) =>
-                            permission.module === "user" && permission.canRead
-                          }
-                        >
-                          <button
-                            type="button"
-                            title="View"
-                            className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      {row.role !== "super admin" && (
+                        <div className="flex justify-center gap-4">
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === "user" && permission.canRead
+                            }
                           >
-                            <Link to={`${row.id}`}>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                className="w-4 h-4"
-                              >
-                                <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
-                                  clip-rule="evenodd"
-                                />
-                              </svg>
-                            </Link>
-                          </button>
-                        </GateKeeper>
-                        <GateKeeper
-                          permissionCheck={(permission) =>
-                            permission.module === "user" && permission.canUpdate
-                          }
-                        >
-                          <button
-                            type="button"
-                            title="Edit"
-                            // disabled={row.userstatus == false}
-                            className={`inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
-                          >
-                            <Link to={`${row.id}/edit`}>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                className="w-4 h-4"
-                              >
-                                <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-                              </svg>
-                            </Link>
-                          </button>
-                        </GateKeeper>
-                        <GateKeeper
-                          permissionCheck={(permission) =>
-                            permission.module === "user" && permission.canDelete
-                          }
-                        >
-                          {
                             <button
                               type="button"
-                              title="Delete"
-                              onClick={() => handleDeleteUser(row.id)}
-                              disabled={userId == row.id ? true : false}
-                              className={` ${
-                                userId == row.id
-                                  ? "text-gray-500 bg-gray-50 cursor-not-allowed"
-                                  : "bg-gray-50 text-[#475569] hover:text-red-500 "
-                              } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                              title="View"
+                              className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                className="w-4 h-4"
-                              >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                                  clip-rule="evenodd"
-                                />
-                              </svg>
-                            </button>
-                          }
-                        </GateKeeper>
-                        <GateKeeper
-                          permissionCheck={(permission) =>
-                            permission.module === "user" && permission.canUpdate
-                          }
-                        >
-                          {
-                            <button
-                              disabled={userId == row.id ? true : false}
-                              className={` ${
-                                userId == row.id
-                                  ? "text-gray-500 bg-gray-50 cursor-not-allowed"
-                                  : "bg-gray-50 text-[#475569] hover:text-orange-500"
-                              } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
-                            >
-                              {row.userstatus !== undefined && (
-                                <label
-                                  htmlFor="toggle"
-                                  disabled={userId == row.id ? true : false}
-                                  className={` ${
-                                    userId == row.id ? "cursor-not-allowed" : ""
-                                  } flex items-center`}
-                                  onClick={(e) =>
-                                    handleClickOpen(
-                                      row.id,
-                                      row.userstatus,
-                                      row.userremarkshistory
-                                    )
-                                  }
+                              <Link to={`${row.id}`}>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  className="w-4 h-4"
                                 >
-                                  <div
-                                    className={`w-6 h-3 rounded-full shadow-inner ${
-                                      row.userstatus
-                                        ? " bg-[#ea580c]"
-                                        : "bg-[#c3c6ca]"
-                                    }`}
+                                  <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+                                    clip-rule="evenodd"
+                                  />
+                                </svg>
+                              </Link>
+                            </button>
+                          </GateKeeper>
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === "user" &&
+                              permission.canUpdate
+                            }
+                          >
+                            <button
+                              type="button"
+                              title="Edit"
+                              // disabled={row.userstatus == false}
+                              className={`inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                            >
+                              <Link to={`${row.id}/edit`}>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  className="w-4 h-4"
+                                >
+                                  <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+                                </svg>
+                              </Link>
+                            </button>
+                          </GateKeeper>
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === "user" &&
+                              permission.canDelete
+                            }
+                          >
+                            {
+                              <button
+                                type="button"
+                                title="Delete"
+                                onClick={() => handleDeleteUser(row.id)}
+                                disabled={userId == row.id ? true : false}
+                                className={` ${
+                                  userId == row.id
+                                    ? "text-gray-500 bg-gray-50 cursor-not-allowed"
+                                    : "bg-gray-50 text-[#475569] hover:text-red-500 "
+                                } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  className="w-4 h-4"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
+                                    clip-rule="evenodd"
+                                  />
+                                </svg>
+                              </button>
+                            }
+                          </GateKeeper>
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === "user" &&
+                              permission.canUpdate
+                            }
+                          >
+                            {
+                              <button
+                                disabled={userId == row.id ? true : false}
+                                className={` ${
+                                  userId == row.id
+                                    ? "text-gray-500 bg-gray-50 cursor-not-allowed"
+                                    : "bg-gray-50 text-[#475569] hover:text-orange-500"
+                                } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                              >
+                                {row.userstatus !== undefined && (
+                                  <label
+                                    htmlFor="toggle"
+                                    disabled={userId == row.id ? true : false}
+                                    className={` ${
+                                      userId == row.id
+                                        ? "cursor-not-allowed"
+                                        : ""
+                                    } flex items-center`}
+                                    onClick={(e) =>
+                                      handleClickOpen(
+                                        row.id,
+                                        row.userstatus,
+                                        row.userremarkshistory
+                                      )
+                                    }
                                   >
                                     <div
-                                      className={`toggle__dot w-3 h-3 rounded-full shadow ${
+                                      className={`w-6 h-3 rounded-full shadow-inner ${
                                         row.userstatus
-                                          ? "ml-4 bg-white"
-                                          : "bg-white"
+                                          ? " bg-[#ea580c]"
+                                          : "bg-[#c3c6ca]"
                                       }`}
-                                    ></div>
-                                  </div>
-                                </label>
-                              )}
-                            </button>
-                          }
-                        </GateKeeper>
-                      </div>}
+                                    >
+                                      <div
+                                        className={`toggle__dot w-3 h-3 rounded-full shadow ${
+                                          row.userstatus
+                                            ? "ml-4 bg-white"
+                                            : "bg-white"
+                                        }`}
+                                      ></div>
+                                    </div>
+                                  </label>
+                                )}
+                              </button>
+                            }
+                          </GateKeeper>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -679,7 +694,7 @@ let meetingPermission = permissions?.find((permission=>permission.module ==="mee
               <option value="500">500</option>
             </select>
             {/* previos button */}
-            <button 
+            <button
               disabled={
                 navigation?.state === "loading"
                   ? true

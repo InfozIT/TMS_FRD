@@ -245,10 +245,18 @@ const Sidebar = ({ open }) => {
               }
             >
               <Link
-                to={{
+                 to={{
                   pathname: menu?.link,
+                  // search:
+                  //   location?.pathname === menu?.link
+                  //     ? location.search
+                  //     : `?search=&page=1&pageSize=10`,
                   search:
-                    location?.state?.from === menu?.link
+                    location?.pathname.split("/")[1] === "tasks" &&
+                    location?.pathname.split("/")[1] ===
+                      menu?.link.split("/")[1]
+                      ? location.search
+                      : location?.pathname === menu?.link
                       ? location.search
                       : `?search=&page=1&pageSize=10`,
                 }}

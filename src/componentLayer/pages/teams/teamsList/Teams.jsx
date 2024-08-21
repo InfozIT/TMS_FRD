@@ -107,6 +107,8 @@ function Teams() {
     }
   }, [fetcher, navigation]);
   const handleDeleteTeam = async (id) => {
+    let meetingList = await atbtApi.post(`boardmeeting/list?team=${id}`);
+    if(meetingList?.data?.Meetings.length === 0){
     const confirmDelete = await Swal.fire({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this Team!",
@@ -129,6 +131,27 @@ function Teams() {
         Swal.fire("Error", "Unable to delete team 🤯", "error");
       }
     }
+  }else {
+     
+    const meetingCount = meetingList?.data?.Meetings.length;
+    
+    const confirmDelete = await Swal.fire({
+      title: "Team can't be deleted",
+      text: `You cannot delete team because there are ${meetingCount} ${meetingCount > 1 ? 'meetings' : 'meeting'} associated with it.`,
+      icon: "warning",
+      showCancelButton: false,
+      confirmButtonColor: "#ea580c",
+      cancelButtonColor: "#fff",
+      confirmButtonText: "Ok",
+      customClass: {
+        popup: "custom-swal2-popup",
+        title: "custom-swal2-title",
+        content: "custom-swal2-content",
+      },
+    });
+ 
+  }
+
   };
   const [tableView, setTableView] = useState(tableViewData);
   const [visibleColumns, setvisibleColumns] = useState();
@@ -205,7 +228,7 @@ function Teams() {
         </div>
       </div>
       {/* table */}
-      <div className="max-h-[457px] overflow-y-auto mt-5">
+      <div className="overflow-y-auto mt-5">
         {visibleColumns && tableView && teams?.Teams && (
           <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead>
