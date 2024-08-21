@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import login_bg from "../../../assets/Images/login_bg.jpg";
-import logo from "../../../assets/Images/Kapil-Logo.png";
+import logo from "../../../assets/Images/logo.png";
 import login_gif from "../../../assets/Images/login_giff.gif";
 import { Link, Navigate } from "react-router-dom";
 
@@ -68,12 +68,12 @@ const Login = () => {
                 src={logo}
                 alt="Company Logo"
               />
-              <p className="text-xs text-center p-1 font-semibold mb-1"> Creating Value || Cultivating Trust</p>
+         
               <hr className="p-1"/>
               {/* <img
                 src={login_gif}
                 className=" h-20 mx-auto w-auto rounded-md mb-2 "
-              /> */}
+              />  */}
               <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                 Sign in to your Account
               </h2>

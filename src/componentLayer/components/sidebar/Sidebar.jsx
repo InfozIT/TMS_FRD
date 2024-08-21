@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import teksacademy_logo from "../../../assets/Images/Teksacademy_logo.png";
+import infozitsmall_logo from "../../../assets/Images/Logo_small.png";
 
 import { Link, NavLink, useLocation, useMatches } from "react-router-dom";
 import GateKeeper from "../../../rbac/GateKeeper";
@@ -190,18 +190,18 @@ const Sidebar = ({ open }) => {
           <div className="sidebar-menu ">
             <span className="icon ">
               <img
-                src={teksacademy_logo}
+                src={infozitsmall_logo}
                 alt="Infoz IT"
                 className={`w-18 h-7  p-0 `}
               />
             </span>
             <span className="text ms-1">
-              <span className="text-orange-600 font-semibold text-md leading-normal ">
-                &nbsp;Teks
+              <span className=" text-[#29609c] font-semibold text-xl leading-normal ">
+                &nbsp;Infoz
               </span>
               &nbsp;
-              <span className="text-[#29609c] font-semibold text-md leading-normal">
-                Academy
+              <span className="text-[#494848] font-semibold text-xl leading-normal">
+                IT
               </span>
             </span>
           </div>
