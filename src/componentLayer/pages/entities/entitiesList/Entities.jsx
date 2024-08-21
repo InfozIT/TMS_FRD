@@ -73,7 +73,6 @@ export async function action({ request, params }) {
 }
 function Entities() {
   const { permissions, loading } = useContext(PermissionsContext);
-
   document.title = "ATBT | Department";
   const navigation = useNavigation();
   const data = useLoaderData();
@@ -131,7 +130,13 @@ function Entities() {
   }, [fetcher, navigation]);
   const handleDeleteUser = async (id) => {
     let entityUsers = await atbtApi.post(`entity/User/list/${id}`);
-    if (entityUsers?.data.length === 0) {
+    let meetingList = await atbtApi.post(`boardmeeting/list?entity=${id}`);
+    console.log("meetingList", meetingList);
+
+    if (
+      entityUsers?.data.length === 0 &&
+      meetingList?.data?.Meetings.length === 0
+    ) {
       const confirmDelete = await Swal.fire({
         title: "Are you sure?",
         text: "Once deleted, you will not be able to recover this Entity!",
@@ -155,15 +160,33 @@ function Entities() {
         }
       }
     } else {
-      const confirmDelete = await Swal.fire({
-        title: "Entity can't be deleted",
-        text: `You cannot delete entity because there are ${
-          entityUsers?.data.length
-        } 
-        ${entityUsers?.data.length > 1 ? `users` : `user`}   
-        
-        (${entityUsers?.data.map((user) => user.name).join(", ")}) are present`,
-        icon: "warning",
+      const userCount = entityUsers?.data.length;
+        const meetingCount = meetingList?.data?.Meetings.length;
+        let textContent = "";
+        if (userCount > 0 && meetingCount > 0) {
+          textContent = `You cannot delete this entity because there ${
+            userCount > 1 ? "are" : "is"
+          } ${userCount} ${userCount > 1 ? "users" : "user"} (${entityUsers?.data
+            .map((user) => user.name)
+            .join(", ")}) and ${meetingCount} ${
+            meetingCount > 1 ? "meetings" : "meeting"
+          } associated with it.`;
+        } else if (userCount > 0 && meetingCount == 0) {
+          textContent = `You cannot delete entity because there are ${
+            entityUsers?.data.length
+          } 
+          ${entityUsers?.data.length > 1 ? `users` : `user`}   
+          
+          (${entityUsers?.data.map((user) => user.name).join(", ")}) are present`;
+        } else if (userCount == 0 && meetingCount > 0) {
+          textContent = `You cannot delete entity because there are ${meetingCount} ${
+            meetingCount > 1 ? "meetings" : "meeting"
+          } associated with it.`;
+        }
+        const confirmDelete = await Swal.fire({
+          title: "Entity can't be deleted",
+          text: textContent,
+           icon: "warning",
         showCancelButton: false,
         confirmButtonColor: "#ea580c",
         cancelButtonColor: "#fff",
@@ -251,7 +274,7 @@ function Entities() {
         </div>
       </div>
       {/* table */}
-      <div className="max-h-[457px] overflow-y-auto mt-5">
+      <div className=" overflow-y-auto mt-5">
         {visibleColumns && tableView && entities?.Entities && (
           <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead>

@@ -165,7 +165,6 @@ export async function AllTasksLoader({ request, params }) {
       // groupName = "groupUser";
       // idOF = "userId";
       // idOF = "userId";
-
     }
     if (url.pathname.split("/")[1] === "entities") {
       parentPath = "entities";
@@ -198,6 +197,7 @@ export async function AllTasksLoader({ request, params }) {
     const page = url.searchParams.get("page");
 
     const toDate = url.searchParams.get("toDate");
+    const userId = url.searchParams.get("userId");
     let idOF;
     if (moduleName === "user") {
       idOF = "userId";
@@ -224,11 +224,14 @@ export async function AllTasksLoader({ request, params }) {
     if (fromDate && toDate) {
       queryParams.push(`fromDate=${fromDate}`, `toDate=${toDate}`);
     }
+    if (userId) {
+      queryParams.push(`userId=${userId}`);
+    }
     const queryString =
       queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
     console.log(queryString, "queryString");
 
-    const [tasks, task, subTasks, subTask] = await Promise.all([
+    const [tasks, task, subTasks, subTask, publicUsers] = await Promise.all([
       atbtApi.get(`task/list${queryString}`),
       taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
       taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
@@ -236,7 +239,8 @@ export async function AllTasksLoader({ request, params }) {
       // groupName && params.BMid
       //   ? atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`)
       //   : {},
-    ]);
+      atbtApi.post(`public/list/user`),
+        ]);
     // console.log("personResponsiblee", personResponsible);
     let updatedTasks = tasks?.data;
 
@@ -273,11 +277,16 @@ export async function AllTasksLoader({ request, params }) {
       subTaskAge = Math.floor(differenceInDays);
       // updatedSubTask.age = subTaskAge;
     }
+    let updatedPublicUsers = publicUsers?.data?.users?.map((user) => ({
+      label: user.name,
+      value: user.id,
+    }));
     const combinedResponse = {
       tasks: updatedTasks,
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
+      publicUsers: updatedPublicUsers,
       // personResponsible: personResponsible?.data?.map((user) => ({
       //   label: user.name,
       //   value: user.id,
@@ -387,6 +396,9 @@ const Tasks = () => {
   const { authState } = useContext(AuthContext);
   const { permissions, loading } = useContext(PermissionsContext);
   console.log("first permissions", permissions);
+  const userData = JSON.parse(localStorage.getItem("data"));
+  console.log("firstons", userData, userData?.role?.name);
+
 
   let meetingPermission = permissions?.find(
     (permission) => permission.module === "task"
@@ -727,6 +739,8 @@ const Tasks = () => {
       error: "Unable to send mails 🤯",
     });
   };
+  const [selectedPersonResponsible, setSelectedPersonResponsible] =
+  useState(null);
 
   return (
     <div className={` ${parentPath === "tasks" ? "p-3" : ""}`}>
@@ -769,8 +783,82 @@ const Tasks = () => {
               </div>
             </div>
 
-            <div className="col-span-2 ">
+            <div className="col-span-4">
               <div className=" md:flex gap-2 items-center md:justify-end">
+              {userData?.role?.name === "super admin" && (
+                  <>
+                    <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
+                      Person Responsible
+                    </label>
+                    <div className="relative w-full">
+                      <Select
+                        className="absolute"
+                        options={data?.publicUsers}
+                        styles={{
+                          control: (provided, state) => ({
+                            ...provided,
+                            backgroundColor: "#f9fafb", // Light gray background
+                            borderWidth: state.isFocused ? "1px" : "1px",
+                            borderColor: state.isFocused
+                              ? "#fb923c"
+                              : "#d1d5db", // Corrected color value
+                            boxShadow: state.isFocused
+                              ? "none"
+                              : provided.boxShadow,
+                          }),
+                          placeholder: (provided) => ({
+                            ...provided,
+                            fontSize: "12px",
+                            color: "#a9a9a9",
+                          }),
+                          option: (provided, state) => ({
+                            ...provided,
+                            color: state.isFocused ? "#fff" : "#000000",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                            backgroundColor: state.isFocused
+                              ? "#ea580c"
+                              : "transparent",
+
+                            "&:hover": {
+                              color: "#fff",
+                              backgroundColor: "#ea580c",
+                            },
+                          }),
+
+                          singleValue: (provided) => ({
+                            ...provided,
+                            fontSize: "14px", // Applied to single value for consistency
+                          }),
+                        }}
+                        theme={(theme) => ({
+                          ...theme,
+                          borderRadius: 5,
+                          colors: {
+                            ...theme.colors,
+                            primary: "#fb923c",
+                          },
+                        })}
+                        menuPortalTarget={document.body}
+                        closeMenuOnScroll={true}
+                        menuPlacement="auto"
+                        maxMenuHeight={150}
+                        value={selectedPersonResponsible}
+                        onChange={(selectedOption) => {
+                          setSelectedPersonResponsible(selectedOption);
+                          setQParams((prev) => ({
+                            ...prev,
+                            userId: selectedOption.value,
+                          }));
+                          // setSelectedModuleList(null);
+                          // setSelectedMeeting(null);
+                          // handleFilterChange("moduleName", selectedOption?.value);
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
+
                 <label className="text-sm text-gray-400">
                   Due date&nbsp;From&nbsp;:
                 </label>
@@ -796,9 +884,7 @@ const Tasks = () => {
                     // handleTaskChange(index, "dueDate", e.target.value);
                   }}
                 />
-                <label className="text-sm text-gray-400">
-                  &nbsp;To&nbsp;:
-                </label>
+                <label className="text-sm text-gray-400">&nbsp;To&nbsp;:</label>
                 <input
                   className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
                   type="date"
@@ -825,8 +911,10 @@ const Tasks = () => {
                       let Qprms = { ...Qparams };
                       delete Qprms.fromDate;
                       delete Qprms.toDate;
+                      delete Qprms.userId;
                       setQParams(Qprms);
                       setDueDateFilter({ toDate: "", fromDate: "" });
+                      setSelectedPersonResponsible(null);
                     }}
                   >
                     <svg
@@ -1171,7 +1259,7 @@ const Tasks = () => {
           )}
         </div>
       </div>
-      <div className=" max-h-[410px] overflow-y-auto">
+      <div className=" overflow-y-auto">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md table ">
           <thead>
             <tr>
@@ -1191,23 +1279,23 @@ const Tasks = () => {
               >
                 Initial Decision Taken
               </th>
-              <th className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
                 Initial Date of Decision
               </th>
               <th
-                className="sticky top-0 z-10  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                className="sticky top-0   bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "11rem" }}
               >
                 Person Responsible
               </th>
-              <th className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
+              <th className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
                 Due Date
               </th>
-              <th className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200">
+              <th className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200">
                 Age (Days)
               </th>
               <th
-                className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "6rem" }}
               >
                 Decision Status
@@ -1284,7 +1372,11 @@ const Tasks = () => {
                           }
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
-                              handleSubmit(task?.id, "decision", e.target.value);
+                              handleSubmit(
+                                task?.id,
+                                "decision",
+                                e.target.value
+                              );
                             }
                           }}
                           autoFocus={autoFocusID === task.id ? true : false}
@@ -1383,14 +1475,14 @@ const Tasks = () => {
                       isDisabled={!meetingPermission.canUpdate}
                       options={members}
                       menuPortalTarget={document.body}
-             maxMenuHeight={200}
+                      maxMenuHeight={200}
                       menuPlacement="auto"
-                      onMenuScrollToTop={()=> false}
+                      onMenuScrollToTop={() => false}
                       styles={{
-                        menuPortal: base => {
+                        menuPortal: (base) => {
                           const { zIndex, ...rest } = base;
                           return { ...rest, zIndex: 15 };
-                      },
+                        },
                         control: (provided, state) => ({
                           ...provided,
                           backgroundColor: "#f9fafb",
@@ -1482,8 +1574,6 @@ const Tasks = () => {
                               (person) => person.value === task?.members
                             )
                       }
-             
-                     
                     />
                   </td>
                   <td className="border py-1 px-2">

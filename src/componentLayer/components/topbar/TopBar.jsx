@@ -51,7 +51,7 @@ export default function TopBar({ open, setOpen }) {
   );
 
   return (
-    <div className="topbar w-full">
+    <div className="topbar w-full " style={{ zIndex: "999" }}>
       <nav className="bg-white shadow-md ">
         <div className="mx-auto max-w-screen pe-2 sm:px-6 lg:px-2">
           <div
